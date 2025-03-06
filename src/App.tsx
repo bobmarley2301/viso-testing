@@ -1,4 +1,4 @@
-import { ChakraProvider, Fade } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   RouterProvider,
@@ -6,6 +6,7 @@ import {
   createRootRoute,
   createRoute,
 } from "@tanstack/react-router";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import { RecipesPage } from "./pages/RecipesPage";
 import { RecipeDetailsPage } from "./pages/RecipeDetailsPage";
 import { SelectedRecipesPage } from "./pages/SelectedRecipesPage";
@@ -56,9 +57,16 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
-        <Fade in={true}>
-          <RouterProvider router={router} />
-        </Fade>
+        <LazyMotion features={domAnimation}>
+          <m.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <RouterProvider router={router} />
+          </m.div>
+        </LazyMotion>
       </ChakraProvider>
     </QueryClientProvider>
   );

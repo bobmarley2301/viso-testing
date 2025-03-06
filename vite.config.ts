@@ -46,7 +46,7 @@ export default defineConfig({
             "lodash",
             "lodash.mergewith",
           ],
-          ui: ["@chakra-ui/icons"],
+          ui: ["@chakra-ui/icons", "framer-motion"],
         },
         chunkFileNames: "assets/js/[name]-[hash].js",
         entryFileNames: "assets/js/[name]-[hash].js",
@@ -70,6 +70,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: [
+      "framer-motion",
       "react",
       "react-dom",
       "lodash",
