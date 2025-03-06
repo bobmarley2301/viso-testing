@@ -6,7 +6,7 @@ import {
   createRootRoute,
   createRoute,
 } from "@tanstack/react-router";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { RecipesPage } from "./pages/RecipesPage";
 import { RecipeDetailsPage } from "./pages/RecipeDetailsPage";
 import { SelectedRecipesPage } from "./pages/SelectedRecipesPage";
@@ -57,9 +57,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
-        <AnimatePresence mode="wait">
-          <RouterProvider router={router} />
-        </AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <AnimatePresence mode="wait">
+            <RouterProvider router={router} />
+          </AnimatePresence>
+        </motion.div>
       </ChakraProvider>
     </QueryClientProvider>
   );

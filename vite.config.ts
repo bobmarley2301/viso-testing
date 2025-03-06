@@ -43,6 +43,8 @@ export default defineConfig({
             "@tanstack/react-query",
             "axios",
             "zustand",
+            "lodash",
+            "lodash.mergewith",
           ],
           ui: ["@chakra-ui/icons", "framer-motion"],
         },
@@ -54,13 +56,35 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     assetsInlineLimit: 4096,
     reportCompressedSize: false,
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true,
+    },
   },
   server: {
     port: 3000,
     open: true,
+    hmr: {
+      overlay: false,
+    },
   },
   optimizeDeps: {
-    include: ["framer-motion"],
-    exclude: ["@chakra-ui/react"],
+    include: [
+      "framer-motion",
+      "react",
+      "react-dom",
+      "lodash",
+      "lodash.mergewith",
+      "@tanstack/react-query",
+      "@tanstack/react-router",
+      "@chakra-ui/react",
+      "@chakra-ui/icons",
+    ],
+    exclude: [],
+  },
+  resolve: {
+    alias: {
+      "lodash.mergewith": "lodash/mergeWith",
+    },
   },
 });
