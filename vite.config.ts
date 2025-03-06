@@ -6,12 +6,7 @@ import viteCompression from "vite-plugin-compression";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react({
-      jsxImportSource: "@emotion/react",
-      babel: {
-        plugins: [["@emotion/babel-plugin", { runtime: "automatic" }]],
-      },
-    }),
+    react(),
     viteCompression({
       algorithm: "gzip",
       ext: ".gz",
@@ -49,12 +44,7 @@ export default defineConfig({
             "axios",
             "zustand",
           ],
-          ui: [
-            "@chakra-ui/icons",
-            "@emotion/react",
-            "@emotion/styled",
-            "framer-motion",
-          ],
+          ui: ["@chakra-ui/icons", "framer-motion"],
         },
         chunkFileNames: "assets/js/[name]-[hash].js",
         entryFileNames: "assets/js/[name]-[hash].js",
@@ -68,12 +58,5 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-  },
-  optimizeDeps: {
-    include: ["@emotion/react", "@emotion/styled", "@emotion/babel-plugin"],
-    esbuildOptions: {
-      jsx: "automatic",
-      jsxImportSource: "@emotion/react",
-    },
   },
 });
