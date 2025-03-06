@@ -6,14 +6,7 @@ import viteCompression from "vite-plugin-compression";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react({
-      babel: {
-        plugins: [
-          ["@babel/plugin-proposal-decorators", { legacy: true }],
-          ["@babel/plugin-proposal-class-properties", { loose: true }],
-        ],
-      },
-    }),
+    react(),
     viteCompression({
       algorithm: "gzip",
       ext: ".gz",

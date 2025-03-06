@@ -6,7 +6,7 @@ import {
   createRootRoute,
   createRoute,
 } from "@tanstack/react-router";
-import { LazyMotion, domAnimation, m } from "framer-motion";
+import { LazyMotion, domAnimation } from "framer-motion";
 import { RecipesPage } from "./pages/RecipesPage";
 import { RecipeDetailsPage } from "./pages/RecipeDetailsPage";
 import { SelectedRecipesPage } from "./pages/SelectedRecipesPage";
