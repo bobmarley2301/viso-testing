@@ -6,7 +6,7 @@ import {
   createRootRoute,
   createRoute,
 } from "@tanstack/react-router";
-import { LazyMotion, domAnimation } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { RecipesPage } from "./pages/RecipesPage";
 import { RecipeDetailsPage } from "./pages/RecipeDetailsPage";
 import { SelectedRecipesPage } from "./pages/SelectedRecipesPage";
@@ -56,11 +56,11 @@ declare module "@tanstack/react-router" {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LazyMotion features={domAnimation}>
-        <ChakraProvider>
+      <ChakraProvider>
+        <AnimatePresence mode="wait">
           <RouterProvider router={router} />
-        </ChakraProvider>
-      </LazyMotion>
+        </AnimatePresence>
+      </ChakraProvider>
     </QueryClientProvider>
   );
 }

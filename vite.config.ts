@@ -61,5 +61,6 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["framer-motion"],
+    exclude: ["@chakra-ui/react"],
   },
 });
