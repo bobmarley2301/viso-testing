@@ -6,7 +6,6 @@ import {
   createRootRoute,
   createRoute,
 } from "@tanstack/react-router";
-import { LazyMotion, domAnimation, m } from "framer-motion";
 import { RecipesPage } from "./pages/RecipesPage";
 import { RecipeDetailsPage } from "./pages/RecipeDetailsPage";
 import { SelectedRecipesPage } from "./pages/SelectedRecipesPage";
@@ -57,16 +56,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
-        <LazyMotion features={domAnimation}>
-          <m.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <RouterProvider router={router} />
-          </m.div>
-        </LazyMotion>
+        <RouterProvider router={router} />
       </ChakraProvider>
     </QueryClientProvider>
   );
