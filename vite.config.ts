@@ -6,7 +6,14 @@ import viteCompression from "vite-plugin-compression";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: [
+          ["@babel/plugin-proposal-decorators", { legacy: true }],
+          ["@babel/plugin-proposal-class-properties", { loose: true }],
+        ],
+      },
+    }),
     viteCompression({
       algorithm: "gzip",
       ext: ".gz",
@@ -58,5 +65,8 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+  },
+  optimizeDeps: {
+    include: ["framer-motion"],
   },
 });
