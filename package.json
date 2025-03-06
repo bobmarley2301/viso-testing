@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:analyze": "tsc && vite build --mode analyze",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
     "preview": "vite preview",
     "start": "vite preview",
     "vercel-build": "npm run build",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "clean": "rimraf dist",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -45,9 +49,12 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "jsdom": "^26.0.0",
+    "rimraf": "^5.0.10",
+    "rollup-plugin-visualizer": "^5.14.0",
     "terser": "^5.39.0",
     "typescript": "^5.2.2",
     "vite": "^5.1.0",
+    "vite-plugin-compression": "^0.5.1",
     "vitest": "^3.0.7"
   }
 }
