@@ -10,6 +10,7 @@ import { RecipesPage } from "./pages/RecipesPage";
 import { RecipeDetailsPage } from "./pages/RecipeDetailsPage";
 import { SelectedRecipesPage } from "./pages/SelectedRecipesPage";
 import { Root } from "./components/Root";
+import { EmotionProvider } from "./emotion";
 import "./types/router";
 
 const queryClient = new QueryClient();
@@ -55,9 +56,11 @@ declare module "@tanstack/react-router" {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider>
-        <RouterProvider router={router} />
-      </ChakraProvider>
+      <EmotionProvider>
+        <ChakraProvider>
+          <RouterProvider router={router} />
+        </ChakraProvider>
+      </EmotionProvider>
     </QueryClientProvider>
   );
 }

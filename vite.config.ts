@@ -9,7 +9,7 @@ export default defineConfig({
     react({
       jsxImportSource: "@emotion/react",
       babel: {
-        plugins: ["@emotion/babel-plugin"],
+        plugins: [["@emotion/babel-plugin", { runtime: "automatic" }]],
       },
     }),
     viteCompression({
@@ -71,5 +71,9 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["@emotion/react", "@emotion/styled", "@emotion/babel-plugin"],
+    esbuildOptions: {
+      jsx: "automatic",
+      jsxImportSource: "@emotion/react",
+    },
   },
 });
