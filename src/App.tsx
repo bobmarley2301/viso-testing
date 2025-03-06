@@ -10,6 +10,7 @@ import { RecipesPage } from "./pages/RecipesPage";
 import { RecipeDetailsPage } from "./pages/RecipeDetailsPage";
 import { SelectedRecipesPage } from "./pages/SelectedRecipesPage";
 import { Root } from "./components/Root";
+import "./types/router";
 
 const queryClient = new QueryClient();
 

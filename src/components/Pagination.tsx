@@ -1,4 +1,4 @@
-import { Box, Button, HStack } from "@chakra-ui/react";
+import { Box, Button, HStack, useColorModeValue } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 interface PaginationProps {
@@ -12,6 +12,11 @@ export const Pagination = ({
   totalPages,
   onPageChange,
 }: PaginationProps) => {
+  const bgColor = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const activeColor = useColorModeValue("blue.500", "blue.300");
+  const inactiveColor = useColorModeValue("gray.600", "gray.400");
+
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 7;
@@ -44,11 +49,23 @@ export const Pagination = ({
   };
 
   return (
-    <HStack spacing={2} justify="center" mt={4}>
+    <HStack spacing={2} justify="center" mt={8} mb={4}>
       <Button
         onClick={() => onPageChange(currentPage - 1)}
         isDisabled={currentPage === 1}
         leftIcon={<ChevronLeftIcon />}
+        variant="outline"
+        colorScheme="blue"
+        size="sm"
+        transition="all 0.2s"
+        _hover={{
+          transform: "translateX(-2px)",
+          shadow: "sm",
+        }}
+        _disabled={{
+          opacity: 0.5,
+          cursor: "not-allowed",
+        }}
       >
         Попередня
       </Button>
@@ -56,12 +73,29 @@ export const Pagination = ({
       {getPageNumbers().map((page, index) => (
         <Box key={index}>
           {page === "..." ? (
-            <Box px={2}>...</Box>
+            <Box px={3} py={1} color={inactiveColor} fontWeight="medium">
+              ...
+            </Box>
           ) : (
             <Button
               onClick={() => onPageChange(page as number)}
               variant={currentPage === page ? "solid" : "outline"}
               colorScheme={currentPage === page ? "blue" : "gray"}
+              size="sm"
+              minW="40px"
+              h="40px"
+              p={0}
+              transition="all 0.2s"
+              _hover={{
+                transform: "translateY(-2px)",
+                shadow: "sm",
+              }}
+              _active={{
+                transform: "translateY(0)",
+              }}
+              bg={currentPage === page ? activeColor : bgColor}
+              color={currentPage === page ? "white" : inactiveColor}
+              borderColor={currentPage === page ? activeColor : borderColor}
             >
               {page}
             </Button>
@@ -73,6 +107,18 @@ export const Pagination = ({
         onClick={() => onPageChange(currentPage + 1)}
         isDisabled={currentPage === totalPages}
         rightIcon={<ChevronRightIcon />}
+        variant="outline"
+        colorScheme="blue"
+        size="sm"
+        transition="all 0.2s"
+        _hover={{
+          transform: "translateX(2px)",
+          shadow: "sm",
+        }}
+        _disabled={{
+          opacity: 0.5,
+          cursor: "not-allowed",
+        }}
       >
         Наступна
       </Button>

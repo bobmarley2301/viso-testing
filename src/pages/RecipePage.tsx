@@ -27,8 +27,7 @@ export const RecipePage = () => {
 		queryFn: () => api.getRecipeById(id!),
 		enabled: !!id,
 	})
-
-	const recipe = recipeData?.meals[0]
+	const recipe = recipeData?.meals?.[0]
 	const isSelected = selectedRecipes.some((r) => r.idMeal === recipe?.idMeal)
 
 	if (!recipe) {

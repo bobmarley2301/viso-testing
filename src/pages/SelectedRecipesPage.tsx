@@ -7,12 +7,12 @@ import {
   Text,
   List,
   ListItem,
-  Button,
   useToast,
   Divider,
 } from "@chakra-ui/react";
 import { useSelectedRecipes } from "../hooks/useSelectedRecipes";
 import { RecipeCard } from "../components/RecipeCard";
+import { Recipe } from "../types/recipe";
 
 export const SelectedRecipesPage = () => {
   const { selectedRecipes, removeRecipe, getIngredients } =
@@ -71,8 +71,8 @@ export const SelectedRecipesPage = () => {
             Список інгредієнтів:
           </Heading>
           <List spacing={2}>
-            {getIngredients().map((ingredient, index) => (
-              <ListItem key={index}>
+            {getIngredients().map((ingredient) => (
+              <ListItem key={ingredient.name}>
                 • {ingredient.name} - {ingredient.measure}
               </ListItem>
             ))}
@@ -85,7 +85,7 @@ export const SelectedRecipesPage = () => {
           <Heading size="md" mb={4}>
             Інструкції по приготуванню:
           </Heading>
-          {selectedRecipes.map((recipe, index) => (
+          {selectedRecipes.map((recipe) => (
             <Box key={recipe.idMeal} mb={6}>
               <Heading size="sm" mb={2}>
                 {recipe.strMeal}

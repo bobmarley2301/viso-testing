@@ -7,7 +7,13 @@ import {
   Select,
   VStack,
   Heading,
+  useColorModeValue,
+  InputGroup,
+  InputLeftElement,
+  Skeleton,
+  Text,
 } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../services/api";
 import { RecipeCard } from "../components/RecipeCard";
@@ -23,17 +29,20 @@ export const RecipesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const debouncedSearch = useDebounce(searchQuery, 500);
 
-  const { data: areasData } = useQuery({
+  const bgColor = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+
+  const { data: areasData, isLoading: isLoadingAreas } = useQuery({
     queryKey: ["areas"],
     queryFn: api.getAllAreas,
   });
 
-  const { data: ingredientsData } = useQuery({
+  const { data: ingredientsData, isLoading: isLoadingIngredients } = useQuery({
     queryKey: ["ingredients"],
     queryFn: api.getAllIngredients,
   });
 
-  const { data: recipesData } = useQuery({
+  const { data: recipesData, isLoading: isLoadingRecipes } = useQuery({
     queryKey: ["recipes", debouncedSearch, selectedArea, selectedIngredient],
     queryFn: async () => {
       if (debouncedSearch) {
@@ -45,7 +54,6 @@ export const RecipesPage = () => {
       if (selectedIngredient) {
         return api.getRecipesByIngredient(selectedIngredient);
       }
-      // TODO: Remove this
       const randomMeals = await Promise.all(
         Array(14)
           .fill(null)
@@ -92,60 +100,104 @@ export const RecipesPage = () => {
 
   return (
     <Container maxW="container.xl" py={8}>
-      <VStack spacing={8}>
-        <Heading>Рецепти</Heading>
+      <VStack spacing={8} align="stretch">
+        <Heading textAlign="center" size="xl" mb={8}>
+          Рецепти
+        </Heading>
 
         <Box width="100%">
-          <Input
-            placeholder="Пошук рецептів..."
-            value={searchQuery}
-            onChange={handleSearch}
-            size="lg"
-          />
+          <InputGroup size="lg">
+            <InputLeftElement pointerEvents="none">
+              <SearchIcon color="gray.400" />
+            </InputLeftElement>
+            <Input
+              placeholder="Пошук рецептів..."
+              value={searchQuery}
+              onChange={handleSearch}
+              bg={bgColor}
+              borderColor={borderColor}
+              _hover={{ borderColor: "blue.500" }}
+              _focus={{ borderColor: "blue.500" }}
+            />
+          </InputGroup>
         </Box>
 
         <Grid templateColumns="repeat(2, 1fr)" gap={4} width="100%">
-          <Select
-            placeholder="Виберіть кухню"
-            value={selectedArea}
-            onChange={handleAreaChange}
-          >
-            {areasData?.meals?.map((area) => (
-              <option key={area.strArea} value={area.strArea}>
-                {area.strArea}
-              </option>
-            ))}
-          </Select>
+          <Skeleton isLoaded={!isLoadingAreas}>
+            <Select
+              placeholder="Виберіть кухню"
+              value={selectedArea}
+              onChange={handleAreaChange}
+              bg={bgColor}
+              borderColor={borderColor}
+              _hover={{ borderColor: "blue.500" }}
+              _focus={{ borderColor: "blue.500" }}
+            >
+              {areasData?.meals?.map((area) => (
+                <option key={area.strArea} value={area.strArea}>
+                  {area.strArea}
+                </option>
+              ))}
+            </Select>
+          </Skeleton>
 
-          <Select
-            placeholder="Виберіть інгредієнт"
-            value={selectedIngredient}
-            onChange={handleIngredientChange}
-          >
-            {ingredientsData?.meals?.map((ingredient) => (
-              <option
-                key={ingredient.strIngredient}
-                value={ingredient.strIngredient}
-              >
-                {ingredient.strIngredient}
-              </option>
-            ))}
-          </Select>
+          <Skeleton isLoaded={!isLoadingIngredients}>
+            <Select
+              placeholder="Виберіть інгредієнт"
+              value={selectedIngredient}
+              onChange={handleIngredientChange}
+              bg={bgColor}
+              borderColor={borderColor}
+              _hover={{ borderColor: "blue.500" }}
+              _focus={{ borderColor: "blue.500" }}
+            >
+              {ingredientsData?.meals?.map((ingredient) => (
+                <option
+                  key={ingredient.strIngredient}
+                  value={ingredient.strIngredient}
+                >
+                  {ingredient.strIngredient}
+                </option>
+              ))}
+            </Select>
+          </Skeleton>
         </Grid>
 
-        <Grid
-          templateColumns={{
-            base: "1fr",
-            md: "repeat(2, 1fr)",
-            lg: "repeat(3, 1fr)",
-          }}
-          gap={6}
-          width="100%"
-        >
-          {paginatedRecipes.map((recipe) => (
-            <RecipeCard key={recipe.idMeal} recipe={recipe} />
-          ))}
-        </Grid>
+        {isLoadingRecipes ? (
+          <Grid
+            templateColumns={{
+              base: "1fr",
+              md: "repeat(2, 1fr)",
+              lg: "repeat(3, 1fr)",
+            }}
+            gap={6}
+            width="100%"
+          >
+            {Array(6)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton key={index} height="300px" borderRadius="lg" />
+              ))}
+          </Grid>
+        ) : recipes.length === 0 ? (
+          <Text textAlign="center" fontSize="lg" color="gray.500">
+            Рецептів не знайдено
+          </Text>
+        ) : (
+          <Grid
+            templateColumns={{
+              base: "1fr",
+              md: "repeat(2, 1fr)",
+              lg: "repeat(3, 1fr)",
+            }}
+            gap={6}
+            width="100%"
+          >
+            {paginatedRecipes.map((recipe) => (
+              <RecipeCard key={recipe.idMeal} recipe={recipe} />
+            ))}
+          </Grid>
+        )}
 
         {totalPages > 1 && (
           <Pagination
